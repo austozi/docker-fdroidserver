@@ -1,3 +1,5 @@
+![F-Droid logo](https://raw.githubusercontent.com/austozi/docker-fdroidserver/main/fdroid.png "F-Droid Server")
+
 # F-Droid
 
 The [F-Droid server](https://gitlab.com/fdroid/fdroidserver), dockerised.
