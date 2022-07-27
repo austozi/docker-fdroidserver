@@ -4,7 +4,7 @@
 
 The [F-Droid server](https://gitlab.com/fdroid/fdroidserver), dockerised.
 
-This is the dockerised version of the F-Droid server bundled with the [Nginx web server from LinuxServer.io](https://hub.docker.com/r/linuxserver/nginx) in one Docker image based on Alpine Linux.
+This is the dockerised version of the F-Droid server bundled with the [Nginx web server from LinuxServer.io](https://hub.docker.com/r/linuxserver/nginx). It is based on Alpine Linux.
 
 ## Build
 
