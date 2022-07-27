@@ -9,16 +9,8 @@ This is the dockerised version of the F-Droid server bundled with the [Nginx web
 1. Download the latest release tarball and extract it.
 2. Navigate to the folder where Dockerfile is and execute `docker build .`
 
-## Usage
+## Install
 
-Once the container has been deployed via the usual route (e.g. with `docker run` or `docker-compose up`), the web frontend can be accessed at http://localhost (default port: 80).
+See [here](https://github.com/austozi/selfhosted/tree/main/fdroidserver) for deployment and usage instructions.
 
-Environmental variables can be specified via Docker run parameters or in the docker-compose.yml file.
-
-The repo will auto-update on a customisable time interval. This auto-update can include downloading third-party APKs to the repo. Save the download scripts as .sh files in a folder and mount the folder to /config/fdroid/update-scripts in the container. The download scripts will be executed one by one during the audo-update.
-
-To manually trigger an update, execute on the Docker host:
-
-```
-docker exec -it fdroid refresh
-```
+This image is available at [Docker Hub](https://hub.docker.com/r/austozi/fdroidserver).
