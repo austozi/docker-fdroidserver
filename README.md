@@ -20,5 +20,5 @@ The repo will auto-update on a customisable time interval. This auto-update can 
 To manually trigger an update, execute on the Docker host:
 
 ```
-docker exec -it fdroid fdroid refresh
+docker exec -it fdroid refresh
 ```
