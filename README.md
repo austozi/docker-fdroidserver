@@ -2,20 +2,23 @@
 
 The [F-Droid server](https://gitlab.com/fdroid/fdroidserver), dockerised.
 
-This is the dockerised version of the F-Droid server bundled with the Apache web server in one Docker image. The image is based on Debian Stable with the fdroidserver and apache2 packages installed from the official Debian package repository. The version numbers of these packages therefore are identical to the version numbers in the official Debian repository.
+This is the dockerised version of the F-Droid server bundled with the [Nginx web server from LinuxServer.io](https://hub.docker.com/r/linuxserver/nginx) in one Docker image.
 
 ## Build
 
-1. Clone this repository using `git clone`.
-2. Navigate to the root folder of the repository where Dockerfile is, and execute `docker build .`
+1. Download the latest release tarball and extract it.
+2. Navigate to the folder where Dockerfile is and execute `docker build .`
 
 ## Usage
 
-Once the container has been deployed via the usual route (e.g. with `docker run` or `docker-compose up`), the web frontend can be accessed at http://<container_ip> (default port: 80). If the container port 80 is bound to the host port 8080, then the web frontend can accessed at http://<docker_host_ip>:8080.
+Once the container has been deployed via the usual route (e.g. with `docker run` or `docker-compose up`), the web frontend can be accessed at http://localhost (default port: 80).
 
-The F-Droid server commands have to be executed manually. Do this on the Docker host (assuming fdroid is the container name):
+Environmental variables can be specified via Docker run parameters or in the docker-compose.yml file.
+
+The repo will auto-update on a customisable time interval. This auto-update can include downloading third-party APKs to the repo. APK downloads can be scripted. Save the scripts in a folder and mount it to /config/fdroid/update-scripts in the container. These download scripts will be executed one by one during the audo-update.
+
+To manually trigger an update, execute on the Docker host:
 
 ```
-docker exec -it fdroid fdroid init
-docker exec -it fdroid update -c
+docker exec -it fdroid fdroid refresh
 ```
