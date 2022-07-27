@@ -1,0 +1,56 @@
+#!/usr/bin/with-contenv bash
+
+APP_ROOT=/config/fdroid
+REPO_DIR="$APP_ROOT"/repo
+CONFIG_FILE="$APP_ROOT"/config.yml
+
+mkdir -p "$REPO_DIR"
+
+# Work from the app root folder.
+cd "$APP_ROOT"
+
+# If config.yml is not found, create it.
+if [ ! -f "$CONFIG_FILE" ]; then
+	echo "Creating config.yml..."
+	echo "repo_url: $FDROID_REPO_URL
+repo_name: $FDROID_REPO_NAME
+repo_icon: $FDROID_REPO_ICON
+repo_description: >-
+  $FDROID_REPO_DESCRIPTION
+keystore: keystore.p12
+serverwebroot: /fdroid" >> "$CONFIG_FILE"
+else
+	sed -Ei "s|repo_url: .+|repo_url: $FDROID_REPO_URL|" "$CONFIG_FILE"
+	sed -Ei "s|repo_name: .+|repo_name: $FDROID_REPO_NAME|" "$CONFIG_FILE"
+	sed -Ei "s|repo_icon: .+|repo_icon: $FDROID_REPO_ICON|" "$CONFIG_FILE"
+	sed -Ei "s|repo_description: .+|repo_description: $FDROID_REPO_DESCRIPTION|" "$CONFIG_FILE"
+fi
+
+# Fix permissions to get rid of warning.
+chmod 0600 "$CONFIG_FILE"
+
+# Initialise the repo.
+echo "Attempting to initialise repository..."
+fdroid init &> /dev/null || true
+
+# Deploy the servier.
+echo "Attempting to deploy server..."
+fdroid deploy -v &> /dev/null || true
+
+# Create key if not present.
+if [ ! -f "/$APP_ROOT"/keystore.p12 ]; then
+	echo "Generating key..."
+	fdroid update --create-key
+fi
+
+# Download APKs.
+# Place download scripts in /config/fdroid/update-scripts.
+if [ -d /config/fdroid/update-scripts ]; then
+	for i in /config/fdroid/update-scripts/*.sh; do
+		bash "$i"
+	done
+fi
+
+# Update APK indices.
+echo "Updating repository..."
+fdroid update -c
