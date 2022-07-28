@@ -30,4 +30,6 @@ RUN python3 -m pip install -U \
 
 COPY ./root/ /
 
+RUN chmod +x /usr/local/bin/refresh
+
 EXPOSE 80
