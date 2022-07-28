@@ -1,9 +1,9 @@
 #!/usr/bin/with-contenv bash
 
-autorefresh(){
-	/usr/local/bin/refresh
-	echo "Last refresh completed `date`.
-	Standing by till next refresh ($FDROID_UPDATE_INTERVAL)..."
+autorefresh() {
+	bash /usr/local/bin/refresh
+	echo "Last autorefresh completed `date`.
+	Standing by till next autorefresh ($FDROID_UPDATE_INTERVAL)..."
 	sleep $FDROID_UPDATE_INTERVAL
 	autorefresh
 }
