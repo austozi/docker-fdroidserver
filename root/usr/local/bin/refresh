@@ -11,7 +11,7 @@ cd "$APP_ROOT"
 
 # If config.yml is not found, create it.
 if [ ! -f "$CONFIG_FILE" ]; then
-	echo "Creating config.yml..."
+	echo "fdroid: Creating config.yml..."
 	echo "repo_url: $FDROID_REPO_URL
 repo_name: $FDROID_REPO_NAME
 repo_icon: $FDROID_REPO_ICON
@@ -30,20 +30,20 @@ fi
 chmod 0600 "$CONFIG_FILE"
 
 # Initialise the repo.
-echo "Attempting to initialise repo..."
+echo "fdroid: Attempting to initialise repo..."
 fdroid init --no-prompt --quiet &> /dev/null || \
-	echo "Initialisation did not succeed. The repo probably already exists."
+	echo "fdroid: Initialisation did not succeed. The repo probably already exists."
 
 # Deploy the servier.
-echo "Attempting to deploy server..."
+echo "fdroid: Attempting to deploy server..."
 fdroid deploy -v &> /dev/null || \
-	echo "Deployment did not succeed. The server probably has already been deployed."
+	echo "fdroid: Deployment did not succeed. The server probably has already been deployed."
 
 # Create key if not present.
 if [ ! -f "/$APP_ROOT"/keystore.p12 ]; then
-	echo "Generating key..."
+	echo "fdroid: Generating key..."
 	fdroid update --create-key --quiet &> /dev/null || \
-		echo "Could not generate key. Proceeding anyway..."
+		echo "fdroid: Could not generate key. Proceeding anyway..."
 fi
 
 # Download APKs.
@@ -55,6 +55,6 @@ if [ -d /config/fdroid/update-scripts ]; then
 fi
 
 # Update APK indices.
-echo "Updating repo..."
+echo "fdroid: Updating repo..."
 fdroid update --create-metadata --quiet &> /dev/null && \
-	echo "Done." || echo "Update did not succeed."
+	echo "fdroid: Update completed successfully." || echo "fdroid: Update did not succeed."

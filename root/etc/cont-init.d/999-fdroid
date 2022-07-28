@@ -2,9 +2,10 @@
 
 autorefresh() {
 	bash /usr/local/bin/refresh
-	echo "Last autorefresh completed `date`.
-	Standing by till next autorefresh ($FDROID_UPDATE_INTERVAL)..."
+	echo "fdroid: Last autorefresh completed `date`."
+	echo "fdroid: Standing by till next autorefresh ($FDROID_UPDATE_INTERVAL)..."
 	sleep $FDROID_UPDATE_INTERVAL
 	autorefresh
 }
+
 autorefresh &
