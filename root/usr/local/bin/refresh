@@ -30,17 +30,20 @@ fi
 chmod 0600 "$CONFIG_FILE"
 
 # Initialise the repo.
-echo "Attempting to initialise repository..."
-fdroid init &> /dev/null || true
+echo "Attempting to initialise repo..."
+fdroid init --no-prompt --quiet &> /dev/null || \
+	echo "Initialisation did not succeed. The repo probably already exists."
 
 # Deploy the servier.
 echo "Attempting to deploy server..."
-fdroid deploy -v &> /dev/null || true
+fdroid deploy -v &> /dev/null || \
+	echo "Deployment did not succeed. The server probably has already been deployed."
 
 # Create key if not present.
 if [ ! -f "/$APP_ROOT"/keystore.p12 ]; then
 	echo "Generating key..."
-	fdroid update --create-key
+	fdroid update --create-key --quiet &> /dev/null || \
+		echo "Could not generate key. Proceeding anyway..."
 fi
 
 # Download APKs.
@@ -52,5 +55,6 @@ if [ -d /config/fdroid/update-scripts ]; then
 fi
 
 # Update APK indices.
-echo "Updating repository..."
-fdroid update -c
+echo "Updating repo..."
+fdroid update --create-metadata --quiet &> /dev/null && \
+	echo "Done." || echo "Update did not succeed."
