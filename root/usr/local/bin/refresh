@@ -48,8 +48,9 @@ fi
 
 # Download APKs.
 # Place download scripts in /config/fdroid/update-scripts.
-if [ -d /config/fdroid/update-scripts ]; then
-	for i in /config/fdroid/update-scripts/*.sh; do
+UPDATES_DIR=/config/fdroid/updates
+if [ -d $UPDATES_DIR ]; then
+	for i in $UPDATES_DIR/*.sh; do
 		bash "$i"
 	done
 fi
