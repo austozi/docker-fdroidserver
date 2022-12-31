@@ -10,6 +10,7 @@ ENV FDROID_UPDATE_INTERVAL=12h
 
 RUN apk add --no-cache \
 	android-tools \
+	curl \
 	gcc \
 	g++ \
 	libc-dev \
@@ -25,6 +26,7 @@ RUN python3 -m pip install -U \
 	pip \
 	wheel
 RUN python3 -m pip install -U \
+	lastversion \
 	pillow \
 	fdroidserver
 
