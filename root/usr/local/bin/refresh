@@ -47,8 +47,8 @@ if [ ! -f "/$APP_ROOT"/keystore.p12 ]; then
 fi
 
 # Download APKs.
-# Place download scripts in /config/fdroid/updates.
-UPDATES_DIR=/config/fdroid/updates
+# Place download scripts (*.sh) in a folder mapped to /custom-cont-init.d.
+UPDATES_DIR=/custom-cont-init.d
 if [ -d $UPDATES_DIR ]; then
 	for i in $UPDATES_DIR/*.sh; do
 		bash "$i"
