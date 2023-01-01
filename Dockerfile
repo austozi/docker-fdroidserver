@@ -13,6 +13,7 @@ RUN apk add --no-cache \
 	curl \
 	gcc \
 	g++ \
+	jq \
 	libc-dev \
 	libffi-dev \
 	libjpeg-turbo-dev \
@@ -33,5 +34,3 @@ RUN python3 -m pip install -U \
 COPY ./root/ /
 
 RUN chmod +x /usr/local/bin/refresh
-
-EXPOSE 80
