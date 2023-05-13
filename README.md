@@ -11,10 +11,4 @@ This image does not implement the full features of the F-Droid server. For examp
 ## Build
 
 1. Download the [latest release tarball](https://github.com/austozi/docker-fdroidserver/releases/latest) and extract it.
-2. Navigate to the folder where Dockerfile is and execute `docker build .`
-
-## Install
-
-See [here](https://github.com/austozi/selfhosted/tree/main/fdroidserver) for deployment and usage instructions.
-
-This image is available at [Docker Hub](https://hub.docker.com/r/austozi/fdroidserver).
+2. Navigate to the folder where Dockerfile is and execute `docker build .
