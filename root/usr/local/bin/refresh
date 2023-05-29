@@ -1,9 +1,10 @@
 #!/usr/bin/with-contenv bash
 
-APP_ROOT=/config/fdroid
+APP_ROOT=/fdroid
 REPO_DIR="$APP_ROOT"/repo
 CONFIG_FILE="$APP_ROOT"/config.yml
 
+# Create repo directory.
 mkdir -p "$REPO_DIR"
 
 # Work from the app root folder.
@@ -57,5 +58,6 @@ fi
 
 # Update APK indices.
 echo "fdroid: Updating repo..."
-fdroid update --create-metadata --quiet &> /dev/null && \
-	echo "fdroid: Update completed successfully." || echo "fdroid: Update did not succeed."
+
+# Print verbose message for troubleshooting.
+fdroid update -cv || echo "fdroid: Update did not succeed."
