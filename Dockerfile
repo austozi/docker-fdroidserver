@@ -28,6 +28,7 @@ RUN apk add --update --no-cache \
 	libjpeg-turbo-dev \
 	make \
 	openjdk11 \
+	py3-pip \
 	python3-dev \
 	zlib-dev
 
