@@ -6,7 +6,7 @@ The [F-Droid server](https://gitlab.com/fdroid/fdroidserver), dockerised.
 
 This is the dockerised version of the F-Droid server bundled with the [Nginx web server from LinuxServer.io](https://hub.docker.com/r/linuxserver/nginx). It is based on Alpine Linux.
 
-This image does not implement the full features of the F-Droid server. For example, it lacks the ability to sign APKs, because it does not bundle apksigner or the Android SDK. I tried but couldn't get the full implementation to work due to the unavailability of packages in the Alpine Linux repo. The primary use of the image, for me personally, is to host third-party APKs that are already signed, so I do not deem it worthwhile to pursue the full implementation. The container will warn/complain about the partial implementation. Those messages are simply suppressed.
+This image does not implement the full features of the F-Droid server. Release v23.1.1 and prior releases did not include apksigner because I couldn't figure out how to install it. I have since figured that out and included apksigner in the new image build, so fdroid no longer complains about missing apksigner and now supports modern APKs that require it.
 
 ## Build
 
