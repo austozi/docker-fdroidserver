@@ -11,7 +11,7 @@ This image does not implement the full features of the F-Droid server. Release v
 ## Build
 
 1. Download the [latest release tarball](https://github.com/austozi/docker-fdroidserver/releases/latest) and extract it.
-2. Navigate to the folder where Dockerfile is and execute `docker build .`.
+2. Navigate to the folder where Dockerfile is and execute `docker build .`. You can specify the version of build-tools by passing `--build-arg BUILD_TOOLS_VERSION=33.0.2` (change to desired version) to the `docker build` command.
 
 ## Install
 
