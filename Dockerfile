@@ -7,7 +7,7 @@ LABEL maintainer=austozi
 # This is shipped inside the build-tools package as part of the Android SDK.
 # To enable apksigner, we need to install build-tools.
 # This specifies the build-tools version to install at image build time.
-ARG BUILD_TOOLS_VERSION='33.0.2'
+ARG BUILD_TOOLS_VERSION='34.0.0'
 
 # Define environment variables.
 # These can be redefined at run time.
