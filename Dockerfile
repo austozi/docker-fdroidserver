@@ -9,7 +9,9 @@ ENV FDROID_REPO_ICON='fdroid.svg'
 ENV FDROID_REPO_DESCRIPTION='Application repository for Android devices, powered by F-Droid.'
 ENV FDROID_REPO_URL='http://localhost'
 ENV FDROID_UPDATE_INTERVAL=12h
-ENV FDROID_BUILD_TOOLS_VERSION='36.0.0'
+
+# Update this during build time as necessary.
+ARG FDROID_BUILD_TOOLS_VERSION='36.0.0'
 
 # Install system packages from Debian's official repo.
 RUN apt-get -y update && \
