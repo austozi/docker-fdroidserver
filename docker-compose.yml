@@ -1,0 +1,22 @@
+services:
+  fdroid:
+    image: austozi/fdroidserver:latest
+    container_name: fdroid
+    restart: unless-stopped
+    environment:
+      TZ: Europe/London
+      FDROID_REPO_ICON: fdroid.png
+      FDROID_UPDATE_INTERVAL: 6h
+      FDROID_REPO_URL: https://fdroid.example.com/repo # Change me
+      FDROID_REPO_NAME: F-Droid App Store
+      FDROID_REPO_DESCRIPTION: An app store for Android devices.
+    volumes:
+      - ./data/fdroid:/fdroid
+      - ./data/fdroid/repo:/var/www/html/repo:ro
+      - ./data/scripts:/update-scripts:ro
+    expose:
+      - 80
+    networks:
+      - frontend
+networks:
+  frontend:
