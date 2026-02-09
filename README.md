@@ -15,9 +15,9 @@ Download docker-compose.yml and execute `docker compose up -d`.
 
 ## Configure
 
-The bundled Apache web server will create an index.html file in the web root directory at /var/www/html within the container, if none already exists. This can be prevented by mounting a custom index.html file in that directory, or by configuring the reverse proxy to always redirect to /repo. 
+The bundled Apache web server will create an index.html file in the web root directory at /var/www/html within the container, if none already exists. This can be prevented by mounting a custom index.html file in that directory. 
 
-For example, for Nginx:
+Alternatively, access to this index.html may be prevented by configuring the reverse proxy to always redirect to /repo. For example, in Nginx:
 
 ```
 location / {
