@@ -12,7 +12,7 @@ services:
       FDROID_REPO_DESCRIPTION: An app store for Android devices.
     volumes:
       - ./data/fdroid:/fdroid
-      - ./data/fdroid/repo:/var/www/html/repo
+      - ./data/fdroid/repo:/var/www/html/repo:ro
       - ./data/scripts:/update-scripts:ro
     expose:
       - 80
