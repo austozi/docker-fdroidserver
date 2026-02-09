@@ -11,7 +11,9 @@ This is the dockerised version of the F-Droid server, with a bundled web server.
 
 ## Install
 
-Download docker-compose.yml and execute `docker compose up -d`.
+1. Download docker-compose.yml.
+2. Customise docker-compose.yml for the F-Droid instance.
+3. Execute `docker compose up -d`.
 
 ## Configure
 
