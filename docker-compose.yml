@@ -13,7 +13,7 @@ services:
     volumes:
       - ./data/fdroid:/fdroid
       - ./data/fdroid/repo:/var/www/html/repo:ro
-      - ./data/scripts:/update-scripts:ro
+      - ./data/updates:/updates:ro
     expose:
       - 80
     networks:
