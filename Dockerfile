@@ -17,6 +17,7 @@ ARG FDROID_BUILD_TOOLS_VERSION='36.0.0'
 RUN apt-get -y update && \
     apt-get -yy install \
        apache2 \
+       curl \
        fdroidserver \
        sdkmanager
 
@@ -24,9 +25,10 @@ RUN apt-get -y update && \
 RUN sdkmanager "build-tools;$FDROID_BUILD_TOOLS_VERSION"
 
 # Create directories
-RUN mkdir -p /fdroid /update-scripts
+RUN mkdir -p /fdroid /updates
 
 # Set default working directory.
 WORKDIR /fdroid
 
-ENTRYPOINT ["/bin/bash", "-c", "apachectl -D FOREGROUND && /bin/bash /update-scripts/*.sh && fdroid update -c && sleep $FDROID_UPDATE_INTERVAL"]
+ENTRYPOINT ["bash", "-c"]
+CMD ["apache2ctl -D FOREGROUND & for f in /updates/*.sh; do bash \"$f\"; done && fdroid update -c && sleep $FDROID_UPDATE_INTERVAL"]
