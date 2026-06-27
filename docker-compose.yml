@@ -3,6 +3,7 @@ services:
     image: austozi/fdroidserver:latest
     container_name: fdroid
     restart: unless-stopped
+    user: "1000:1000"
     environment:
       TZ: Europe/London
       FDROID_REPO_ICON: fdroid.png
