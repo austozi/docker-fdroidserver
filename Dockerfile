@@ -1,34 +1,78 @@
-FROM debian:stable-slim
+FROM debian:13-slim
 
-LABEL author=austozi
-LABEL maintainer=austozi
+LABEL org.opencontainers.image.authors="austozi"
 
-# Define environment variables.
-ENV FDROID_REPO_NAME='F-Droid Repository'
-ENV FDROID_REPO_ICON='fdroid.svg'
-ENV FDROID_REPO_DESCRIPTION='Application repository for Android devices, powered by F-Droid.'
-ENV FDROID_REPO_URL='http://localhost'
-ENV FDROID_UPDATE_INTERVAL=12h
+ENV DEBIAN_FRONTEND=noninteractive
 
-# Update this during build time as necessary.
-ARG FDROID_BUILD_TOOLS_VERSION='36.0.0'
+# Repository configuration
+ENV FDROID_REPO_NAME="F-Droid Repository" \
+    FDROID_REPO_ICON="fdroid.svg" \
+    FDROID_REPO_DESCRIPTION="Application repository for Android devices, powered by F-Droid." \
+    FDROID_REPO_URL="http://localhost" \
+    FDROID_UPDATE_INTERVAL=43200 \
+    ANDROID_HOME=/opt/android-sdk \
+    ANDROID_SDK_ROOT=/opt/android-sdk \
+    PATH="/opt/android-sdk/cmdline-tools/latest/bin:/opt/android-sdk/platform-tools:${PATH}"
 
-# Install system packages from Debian's official repo.
-RUN apt-get -y update && \
-    apt-get -yy install \
-       apache2 \
-       curl \
-       fdroidserver \
-       sdkmanager
+# Android SDK versions
+ARG CMDLINE_TOOLS_VERSION=13114758
+ARG BUILD_TOOLS_VERSION=36.0.0
+ARG PLATFORM_VERSION=36
 
-# Install build-tools using sdkmanager.
-RUN sdkmanager "build-tools;$FDROID_BUILD_TOOLS_VERSION"
+RUN set -eux; \
+    apt-get update; \
+    apt-get install -y --no-install-recommends \
+        busybox \
+        ca-certificates \
+        curl \
+        fdroidserver \
+        openjdk-21-jre-headless \
+        unzip; \
+    \
+    mkdir -p "${ANDROID_SDK_ROOT}/cmdline-tools"; \
+    curl -fsSL \
+        "https://dl.google.com/android/repository/commandlinetools-linux-${CMDLINE_TOOLS_VERSION}_latest.zip" \
+        -o /tmp/cmdline-tools.zip; \
+    unzip -q /tmp/cmdline-tools.zip -d "${ANDROID_SDK_ROOT}/cmdline-tools"; \
+    mv "${ANDROID_SDK_ROOT}/cmdline-tools/cmdline-tools" \
+       "${ANDROID_SDK_ROOT}/cmdline-tools/latest"; \
+    rm /tmp/cmdline-tools.zip; \
+    \
+    yes | sdkmanager --licenses >/dev/null; \
+    sdkmanager \
+        "platform-tools" \
+        "platforms;android-${PLATFORM_VERSION}" \
+        "build-tools;${BUILD_TOOLS_VERSION}"; \
+    \
+    mkdir -p \
+        /fdroid \
+        /fdroid/repo \
+        /updates; \
+    \
+    chmod -R a+rX "${ANDROID_SDK_ROOT}"; \
+    \
+    apt-get clean; \
+    rm -rf \
+        /var/lib/apt/lists/* \
+        /root/.android \
+        /root/.cache \
+        /tmp/*
 
-# Create directories
-RUN mkdir -p /fdroid /updates
-
-# Set default working directory.
 WORKDIR /fdroid
 
-ENTRYPOINT ["bash", "-c"]
-CMD ["apache2ctl -D FOREGROUND & for f in /updates/*.sh; do bash \"$f\"; done && fdroid update -c && sleep $FDROID_UPDATE_INTERVAL"]
+EXPOSE 8080
+
+HEALTHCHECK --interval=1m --timeout=5s --start-period=30s \
+CMD busybox wget -q -O /dev/null http://127.0.0.1:8080/ || exit 1
+
+CMD ["sh", "-ceu", "\
+busybox httpd -f -p 8080 -h /fdroid/repo & \
+HTTPD_PID=$!; \
+while :; do \
+    kill -0 \"$HTTPD_PID\" || exit 1; \
+    for f in /updates/*.sh; do \
+        [ -f \"$f\" ] && sh \"$f\"; \
+    done; \
+    fdroid update -c; \
+    sleep \"$FDROID_UPDATE_INTERVAL\"; \
+done"]
