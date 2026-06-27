@@ -17,12 +17,15 @@ This is the dockerised version of the F-Droid server, with a bundled web server.
 
 ## Configure
 
-The bundled Apache web server will create an index.html file in the web root directory at /var/www/html within the container, if none already exists. This can be prevented by mounting a custom index.html file in that directory. 
+The bundled web server serves the /fdroid/repo directory as the webroot on port 8080. This behaviour is hardcoded. 
 
-Alternatively, access to this index.html may be prevented by configuring the reverse proxy to always redirect to /repo. For example, in Nginx:
+F-Droid expects third-party repos to be served at https://example.com/fdroid/repo, and considers the URL malformed if this convention is not followed. You should configure the reverse proxy to redirect to this path. For example, in Caddy:
 
 ```
-location / {
-  return 302 /repo;
+fdroid.example.com {
+  redir / /fdroid/repo/ 302
+  handle_path /fdroid/repo/* {
+    reverse_proxy fdroidserver:8080
+	}
 }
 ```
