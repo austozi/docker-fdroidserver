@@ -15,7 +15,7 @@ services:
       - ./fdroid:/fdroid
       - ./updates:/updates:ro
     expose:
-      - 80
+      - 8080
     networks:
       - frontend
 networks:
