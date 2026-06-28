@@ -24,6 +24,7 @@ F-Droid expects third-party repos to be served at https://example.com/fdroid/rep
 ```
 fdroid.example.com {
   redir / /fdroid/repo/ 302
+  redir /fdroid/repo /fdroid/repo/ 302
   handle_path /fdroid/repo/* {
     reverse_proxy fdroidserver:8080
 	}
