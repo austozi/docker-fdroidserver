@@ -19,7 +19,7 @@ This is the dockerised version of the F-Droid server, with a bundled web server.
 
 The bundled web server serves the /fdroid/repo directory as the webroot on port 8080. This behaviour is hardcoded. 
 
-F-Droid expects third-party repos to be served at https://example.com/fdroid/repo, and considers the URL malformed if this convention is not followed. You should configure the reverse proxy to redirect to this path. For example, in Caddy:
+F-Droid expects third-party repos to be served at https://fdroid.example.com/fdroid/repo, and considers the URL malformed if this convention is not followed. You should configure the reverse proxy to redirect to this path. For example, in Caddy:
 
 ```
 fdroid.example.com {
